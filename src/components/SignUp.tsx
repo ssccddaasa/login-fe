@@ -1,5 +1,6 @@
 import {} from '@mantine/core';
-import React from 'react';
+import {useState} from 'react';
+import type { FormEvent } from 'react';
 import instance from '../Instances/AxiosInstance';
 import { validateSignUp } from '../ValidatorsForms/SignUpValidators';
 import type { SignUpFormValues } from '../ValidatorsForms/SignUpValidators';
@@ -12,10 +13,10 @@ import type { SignUpFormValues } from '../ValidatorsForms/SignUpValidators';
 export function SignUp() {
 
 
-  const[response,setResponse]=React.useState(null);
-  const [errors, setErrors] = React.useState<Partial<Record<keyof SignUpFormValues, string>>>({});
+  const[response,setResponse]=useState(null);
+  const [errors, setErrors] = useState<Partial<Record<keyof SignUpFormValues, string>>>({});
 
-  const handleSignUp = async (event: React.FormEvent) => {
+  const handleSignUp = async (event: FormEvent) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const name = (form.elements.namedItem('name') as HTMLInputElement).value;
@@ -34,7 +35,7 @@ export function SignUp() {
     setErrors({});
 
     try {
-      const response = await instance.post('/register', {
+      const response = await instance.post('/auth/register', {
         name,
         email,
         password
